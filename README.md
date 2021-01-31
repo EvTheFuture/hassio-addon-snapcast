@@ -2,8 +2,8 @@
 
 [project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
 [project-stage-page]: https://blog.pother.ca/project-stages/
-![GitHub](https://img.shields.io/github/license/EvTheFuture/homeassistant-addons)
-![GitHub issues](https://img.shields.io/github/issues/EvTheFUture/homeassistant-addons)
+![GitHub](https://img.shields.io/github/license/EvTheFuture/hassio-addon-snapcast)
+![GitHub issues](https://img.shields.io/github/issues/EvTheFUture/hassio-addon-snapcast)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/EvTheFuture/hassio-addon-snapcast)
 
 # Snapcast add-on for Home Assistant
