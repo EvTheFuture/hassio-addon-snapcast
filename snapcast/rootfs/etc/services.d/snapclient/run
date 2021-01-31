@@ -1,0 +1,41 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Home Assistant Community Add-on: Snapcast
+# Starts the Snapcast server if enabled in config
+# ==============================================================================
+function getval() {
+    local param="${1}"
+
+    if bashio::config.exists "client.$param" ; then
+    	echo "$(bashio::config "client.$param")"
+    else
+    	echo "${PARAMS[$param]}"
+    fi
+}
+
+declare -a options
+
+# If Snapcast is disabled, use a fake sleep process
+if ! bashio::config.true 'client.enable'; then
+    bashio::log.info 'Snapcast client not enabled in config...'
+    exec sleep 864000
+fi
+
+bashio::log.info 'Starting the Snapcast client...'
+
+declare -A PARAMS
+PARAMS["host"]="127.0.0.1"
+PARAMS["extra_params"]=""
+
+declare -a opts
+opts+=(-h)
+opts+=($(getval 'host'))
+opts+=($(getval 'extra_params'))
+
+# Just wait 2 second in case the server is handled by this machine too
+sleep 2
+
+bashio::log.info "Starting: snapclient ${opts[*]}"
+
+# Start the Snapcast client
+exec /usr/bin/snapclient ${opts[*]} < /dev/null

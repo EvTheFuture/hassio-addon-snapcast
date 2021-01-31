@@ -1,0 +1,84 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Home Assistant Community Add-on: Snapcast
+# Starts the Snapcast server if enabled in config
+# ==============================================================================
+config_file="/etc/snapserver.conf"
+
+function rawurlencode() {
+  local string="${1}"
+  local strlen=${#string}
+  local encoded=""
+  local pos c o
+
+  for (( pos=0 ; pos<strlen ; pos++ )); do
+     c=${string:$pos:1}
+     case "$c" in
+        [-_.~a-zA-Z0-9] ) o="${c}" ;;
+        * ) printf -v o '%%%02x' "'$c"
+     esac
+     encoded+="${o}"
+  done
+  echo "${encoded}"    # You can either set a return variable (FASTER) 
+}
+
+function getval() {
+    local param="${1}"
+
+    if bashio::config.exists "server.$param" ; then
+    	rawurlencode "$(bashio::config "server.$param")"
+    else
+    	rawurlencode "${PARAMS[$param]}"
+    fi
+}
+
+declare -a options
+
+# If Snapcast is disabled, use a fake sleep process
+if ! bashio::config.true 'server.enable'; then
+    bashio::log.info 'Snapcast server not enabled in config...'
+    exec sleep 864000
+fi
+
+bashio::log.info 'Starting the Snapcast server...'
+
+if bashio::config.true 'server.enable_stream_librespot' ; then
+    declare -A PARAMS
+    PARAMS["librespot_name"]="Spotify"
+    PARAMS["librespot_device_name"]="Snapcast"
+    PARAMS["librespot_initial_volume"]="100"
+    PARAMS["librespot_bitrate"]="320"
+    PARAMS["librespot_normalize"]="false"
+    PARAMS["librespot_killall"]="false"
+    PARAMS["librespot_disable_audio_cache"]="false"
+    PARAMS["librespot_params"]=""
+    PARAMS["librespot_extra_params"]=""
+    
+    params=""
+    extra_params=""
+
+    bashio::config.has_value "server.librespot_params" && params="&params=$(rawurlencode $(bashio::config server.librespot_params))"
+    bashio::config.has_value "server.librespot_extra_params" && extra_params="&$(bashio::config server.librespot_extra_params)"
+
+    # TODO: add custom_streams
+    STREAMS="source = librespot:///usr/bin/librespot?name=$(getval 'librespot_name')&devicename=$(getval 'librespot_device_name')&bitrate=$(getval 'librespot_bitrate')&volume=$(getval 'librespot_initial_volume')&normalize=$(getval 'librespot_normalize')&disable_audio_cache=$(getval 'librespot_disable_audio_cache')${extra_params}${params}"
+fi
+
+echo "[stream]" > "$config_file"
+echo "$STREAMS" >> "$config_file"
+echo "" >> "$config_file"
+
+# activate web server?
+if bashio::config.true 'server.enable_web' ; then
+    echo "[http]" >> "$config_file"
+    echo "doc_root = /usr/share/snapserver/snapweb/" >> "$config_file"
+fi
+
+conf="$(cat "$config_file")"
+bashio::log.debug "Snapcast server compiled config file: $conf"
+
+# Remove warnings that happen a lot in the log
+exec > >(fgrep -v ":5353: type 47 is invalid")
+
+# Start the Snapcast server
+exec /usr/bin/snapserver "${options[@]}" < /dev/null 

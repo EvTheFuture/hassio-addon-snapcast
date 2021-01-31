@@ -1,0 +1,60 @@
+{
+  "name": "Snapcast",
+  "version": "0.5.0",
+  "stage": "experimental",
+  "slug": "snapcast",
+  "description": "Snapcast server and/or client hosted on Home Assistant",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "services",
+  "boot": "auto",
+  "url": "https://github.com/EvTheFuture/homeassistant-addons/tree/master/snapcast",
+  "webui": "http://[HOST]:[PORT:1780]/",
+  "audio": true,
+  "ingress": true,
+  "ingress_port": 1780,
+  "options": {
+    "server": {
+      "enable": true,
+      "enable_web": true,
+      "enable_stream_librespot": true,
+      "librespot_name": "Spotify",
+      "librespot_device_name": "Snapcast",
+      "librespot_initial_volume": 100,
+      "librespot_bitrate": 320,
+      "librespot_normalize": false,
+      "librespot_killall": false,
+      "librespot_disable_audio_cache": false,
+      "librespot_params": "",
+      "librespot_extra_params": ""
+    },
+    "client": {
+      "enable": false,
+      "host": "127.0.0.1",
+      "extra_params": ""
+    }
+  },
+  "schema": {
+    "server": {
+      "enable": "bool",
+      "enable_web": "bool",
+      "enable_stream_librespot": "bool",
+      "librespot_name": "str?",
+      "librespot_device_name": "str?",
+      "librespot_initial_volume": "int(0,100)?",
+      "librespot_bitrate": "list(96|160|320)?",
+      "librespot_normalize": "bool?",
+      "librespot_killall": "bool?",
+      "librespot_disable_audio_cache": "bool?",
+      "librespot_params": "str?",
+      "librespot_extra_params": "str?",
+      "custom_streams": "str?"
+    },
+    "client": {
+      "enable": "bool",
+      "host": "str",
+      "port": "port?",
+      "extra_params": "str?"
+    }
+  },
+  "host_network": true
+}
