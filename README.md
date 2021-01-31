@@ -16,4 +16,4 @@ This add-on allow you to have a snapcast server and/or client running on Home As
 
 # Documentation
 
-[Read the DOCS file](https://github.com/EvTheFuture/homeassistant-addons/blob/master/snapcast/DOCS.md)
+[Read the DOCS file](https://github.com/EvTheFuture/hassio-addon-snapcast/blob/master/snapcast/DOCS.md)
