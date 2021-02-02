@@ -56,5 +56,6 @@
       "extra_params": "str?"
     }
   },
-  "host_network": true
+  "host_network": true,
+  "image": "evthefuture/hassio-addon-snapcast-{arch}"
 }
