@@ -2,7 +2,7 @@
 
 [project-stage-badge: Development]: https://img.shields.io/badge/Project%20Stage-Development-yellowgreen.svg
 [project-stage-page]: https://blog.pother.ca/project-stages/
-![GitHub](https://img.shields.io/github/license/EvTheFuture/hassio-addon-repository)
+![GitHub](https://img.shields.io/github/license/EvTheFuture/hassio-addon-snapcast)
 ![GitHub issues](https://img.shields.io/github/issues/EvTheFUture/hassio-addon-snapcast)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/EvTheFuture/hassio-addon-snapcast)
 
@@ -16,6 +16,6 @@ This add-on allow you to have a snapcast server and/or client running on Home As
 
 # Documentation
 
-[Read the DOCS file](https://github.com/EvTheFuture/homeassistant-addons/blob/master/snapcast/DOCS.md)
+[Read the DOCS file](https://github.com/EvTheFuture/hassio-addon-snapcast/blob/master/snapcast/DOCS.md)
 
 [![buy-me-a-coffee](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/EvTheFuture)
