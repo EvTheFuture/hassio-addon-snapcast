@@ -1,6 +1,7 @@
 {
   "name": "Snapcast",
   "version": "0.5.2",
+  "init": false,
   "stage": "experimental",
   "slug": "snapcast",
   "description": "Snapcast server and/or client hosted on Home Assistant",
